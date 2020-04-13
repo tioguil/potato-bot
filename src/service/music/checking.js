@@ -17,5 +17,13 @@ module.exports = {
             );
         }
         return true;
+    },
+    isUrl: (term)=>{
+        try {
+            new URL(term);
+        } catch (_) {
+            return false;
+        }
+        return true;
     }
 }

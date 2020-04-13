@@ -1,9 +1,8 @@
 const ytdl = require("ytdl-core");
-const {userIsLogged, okPermissions} = require("./checking");
+const {userIsLogged, okPermissions, isUrl} = require("./checking");
 const {MessageEmbed} = require('discord.js');
+const searchUrl = require("../youtube/searchUrl")
 
-let index = 0;
-let speaking = false;
 module.exports = playMusic = async (message, args) =>{
     try {
         const queue = message.client.queue;
@@ -16,8 +15,20 @@ module.exports = playMusic = async (message, args) =>{
         if (!okPermissions){
             return;
         }
+        
+        let url = "";
+        if (isUrl(args[0])){
+            url = args[0];
+        }else {
+            let term = args.toString().replace(","," ")
+            url = await searchUrl(term);
+            if (url === "" || url === undefined){
+                message.channel.send("Nenhum resultado encontrado");
+                return;
+            }
+        }
 
-        const songInfo = await ytdl.getInfo(args[0]);
+        const songInfo = await ytdl.getInfo(url);
         const song = {
             title: songInfo.title,
             url: songInfo.video_url,
@@ -31,10 +42,9 @@ module.exports = playMusic = async (message, args) =>{
                 voiceChannel: voiceChannel,
                 connection: null,
                 songs: [],
-                volume: 0.20,
+                volume: 0.10,
                 playing: true
             };
-            index = 0;
 
             queue.set(message.guild.id, queueConstruct);
 
@@ -52,10 +62,6 @@ module.exports = playMusic = async (message, args) =>{
             }
         } else {
             serverQueue.songs.push(song);
-            if(!speaking){
-                play(message, serverQueue.songs[serverQueue.songs.length -1]);
-                return;
-            }
             const embed = new MessageEmbed()
                 .setTitle(`${song.title} foi adicionado à fila!`)
                 .setURL(song.url)
@@ -75,17 +81,18 @@ const play = (message, song) => {
     const serverQueue = queue.get(message.guild.id);
 
     if (!song) {
+        serverQueue.textChannel.send(`Bye bye`);
+        serverQueue.voiceChannel.leave();
+        queue.delete(guild.id);
         return;
     }
 
     serverQueue.connection.play(ytdl(song.url),{volume:  serverQueue.volume})
         .on("finish", () => {
-            // serverQueue.songs.shift();
-            index++
-            play(message, serverQueue.songs[index]);
+            serverQueue.songs.shift();
+            play(message, serverQueue.songs[0]);
         })
-        .on("error", error => console.error(error))
-        .on("speaking", speakingListener => {speaking = speakingListener;});
+        .on("error", error => console.error(error));
     const embed = new MessageEmbed()
         .setTitle(`Tocando: ${song.title}`)
         .setURL(song.url)

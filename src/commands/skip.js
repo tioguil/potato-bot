@@ -1,4 +1,4 @@
-const skip = require("../service/music/skipe")
+const skip = require("../service/music/skip")
 module.exports = {
 	name: 'skip',
 	description: 'Pula uma música!',
