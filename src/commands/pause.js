@@ -1,7 +1,7 @@
 const pause = require("../service/music/pause")
 module.exports = {
     name: 'pause',
-    description: 'Listar todos os comandos disponíveis.',
+    description: 'Pausa o player de música',
     execute(message, client, args) {
         pause(message);
     },
