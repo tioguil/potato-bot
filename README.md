@@ -1,4 +1,4 @@
-# Discord-bot
+# Potato-bot
 
 A simple discord bot with music
 
