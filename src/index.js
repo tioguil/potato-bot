@@ -22,6 +22,7 @@ for (const file of commandFiles) {
 console.log(client.commands);
 
 client.once('ready', () => {
+	console.log(client.guilds.cache)
 	client.user.setActivity('minha vida fora! para ajuda -> .help', {type: 'PLAYING'}).catch(console.error)
 	console.log('Online!');
 });
