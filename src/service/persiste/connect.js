@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes,} = require('sequelize');
 
-const sequelize = new Sequelize('potato_bot', 'potatobot', 'potato', {
+const sequelize = new Sequelize('potato_bot', 'postgres', 'root', {
     host:"localhost",
-    dialect: 'mysql'
+    dialect: 'postgres'
 })
 
 sequelize.authenticate()
@@ -11,7 +11,7 @@ sequelize.authenticate()
 
 
 
-const User = sequelize.define('user', {
+const User = sequelize.define('users', {
     id: {type:DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     username: {type:DataTypes.STRING, allowNull:false},
     discriminator:{type:DataTypes.STRING, allowNull:false},
@@ -65,9 +65,4 @@ Music.belongsToMany(Server, {
     foreignKey: 'music_id'
 });
 
-
 User.create({id:0, username:"Guil", discriminator:"test", id_discord:"asdfase"})
-
-// c.getMerchants().then(function (merchants) {
-//     merchants[0].merchant_customer.customer_id // Or perhaps merchant_customers, can't remember
-// });

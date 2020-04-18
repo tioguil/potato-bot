@@ -21,5 +21,10 @@ Deve ser configurado a variável de ambiente `TOKEN_BOT` com o token do seu bot.
 Dentro da pasta do projeto, rodar o comando `npm install` para instalar todas as dependências.
 Apos o termino rodar momando `node .` na raiz do projeto. 
 
+
+## Deploy Potato-bot heroku
+Caso queira realizar o deploy do bot no heroku, é necessário a instalação da lib `ffmpeg`, para realizar a instalação dessa lib basta seguir esse tutorial aqui [aqui](https://elements.heroku.com/buildpacks/jonathanong/heroku-buildpack-ffmpeg-latest)
+crédito: [jonathanong](https://github.com/jonathanong)
+
 ### Author  
 Guilherme Santos
