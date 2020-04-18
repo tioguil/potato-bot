@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "repository": "",
   "description": "A simple discord bot with music",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "discord",

@@ -1,10 +1,10 @@
 const fs = require('fs')
 const Discord = require('discord.js');
-const Client = require('./service/client/Client');
+const Client = require('./src/service/client/Client');
 
 const {
 	prefix,
-} = require('./config.json');
+} = require('./src/config.json');
 
 // Taking tokens from environment variables
 const token = process.env.TOKEN_BOT;
@@ -15,7 +15,7 @@ client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('src/commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
+	const command = require(`./src/commands/${file}`);
 	client.commands.set(command.name, command);
 }
 
